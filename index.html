@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Sistema de gestión estudiantil de la U.E. Fabricio Ojeda · Boconó, Trujillo">
+<title>U.E. Fabricio Ojeda · Gestión estudiantil</title>
+<link rel="icon" type="image/webp" href="assets/logo.webp">
+<script>
+  try {
+    var t = localStorage.getItem('uefabricio.theme');
+    if (t === 'light' || t === 'dark' || t === 'black') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<!-- ── iconos ─────────────────────────────────────────────── -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="9" width="3" height="9" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 0 1 0 18" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 8 5-5 5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.4 2.2 3.3 5.1 5.5 5.5l1.2-1.4 2.3.8c-.3 1.5-1.5 2.3-2.8 2.1-3-.5-6.7-4.2-7.2-7.2-.2-1.3.6-2.5 2.1-2.8l.8 2.3-1.9.7z"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-user-check" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"/></symbol>
+</svg>
+
+<div class="aurora" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<div class="app">
+  <!-- ── barra lateral ─────────────────────────────────── -->
+  <aside class="sidebar">
+    <a class="brand" href="#resumen" data-view="resumen" aria-label="Ir al resumen">
+      <span class="brand-tile"><img src="assets/logo.webp" alt="Escudo de la U.E. Fabricio Ojeda"></span>
+      <span class="brand-copy">
+        <strong id="brandName">Fabricio Ojeda</strong>
+        <small id="brandSub">U.E. · Boconó, Trujillo</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <p class="nav-label">Panel</p>
+      <button class="nav-item is-active" data-view="resumen">
+        <svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg><span>Resumen</span>
+      </button>
+      <button class="nav-item" data-view="estudiantes">
+        <svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Estudiantes</span>
+        <span class="nav-count" id="navCount">0</span>
+      </button>
+      <button class="nav-item" data-view="matricula">
+        <svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Matrícula</span>
+      </button>
+      <button class="nav-item nav-config" data-view="configuracion">
+        <span class="gear-wrap" aria-hidden="true">
+          <svg class="gear" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-miterlimit="10">
+            <g>
+              <circle  cx="16" cy="16" r="5"></circle>
+              <path  d="m30,17.5v-3l-3.388-1.355c-.25-.933-.617-1.815-1.089-2.633l1.436-3.351-2.121-2.121-3.351,1.436c-.817-.472-1.7-.838-2.633-1.089l-1.355-3.388h-3l-1.355,3.388c-.933.25-1.815.617-2.633,1.089l-3.351-1.436-2.121,2.121 1.436,3.351c-.472.817-.838,1.7-1.089,2.633l-3.388,1.355v3l3.388,1.355c.25.933.617,1.815 1.089,2.633l-1.436,3.351 2.121,2.121 3.351-1.436c.817.472 1.7.838 2.633,1.089l1.355,3.388h3l1.355-3.388c.933-.25 1.815-.617 2.633-1.089l3.351,1.436 2.121-2.121-1.436-3.351c.472-.817.838-1.7 1.089-2.633l3.388-1.355Z"></path>
+            </g>
+          </svg>
+        </span><span>Configuración</span>
+      </button>
+    </nav>
+
+    <div class="side-card">
+      <div class="side-card-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></div>
+      <div>
+        <strong>Datos locales</strong>
+        <p>Todo se guarda en este navegador. Nada sale de tu equipo.</p>
+      </div>
+    </div>
+
+    <div class="side-foot">
+      <span class="status-dot" id="saveDot"></span>
+      <span id="sideSaved">Guardado automático</span>
+      <span class="side-version" id="sideVersion">v2.1</span>
+    </div>
+  </aside>
+
+  <!-- ── columna principal ─────────────────────────────── -->
+  <div class="main">
+    <header class="topbar">
+      <a class="topbar-brand" data-view="resumen" href="#resumen" aria-label="Ir al resumen">
+        <span class="brand-tile brand-tile-sm"><img src="assets/logo.webp" alt=""></span>
+        <strong id="topbarName">Fabricio Ojeda</strong>
+      </a>
+
+      <div class="page-heading">
+        <p id="viewEyebrow">Panel general</p>
+        <h1 id="viewTitle">Resumen</h1>
+      </div>
+
+      <div class="global-search">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="globalSearch" type="search" placeholder="Buscar estudiante, cédula, representante…" autocomplete="off" aria-label="Buscar estudiante">
+        <kbd>/</kbd>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm quick-add" id="quickAdd">
+          <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg><span>Estudiante</span>
+        </button>
+        <button class="icon-btn theme-btn" id="themeToggle" aria-label="Cambiar tema" title="Cambiar tema">
+          <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+          <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+          <svg class="icon icon-contrast" aria-hidden="true"><use href="#i-contrast"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="content" id="main">
+      <!-- ══════════════ RESUMEN ══════════════ -->
+      <section class="view is-active" id="view-resumen" data-view="resumen">
+        <div class="dash-hero" style="--i:0">
+          <div class="dash-copy">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> <span id="heroInstitution">U.E. Fabricio Ojeda</span> · <span id="heroLocation">Boconó, Trujillo</span></p>
+            <h2><span id="greeting">Buenos días</span>,<br><span class="grad-text" id="dashHeadline">todo el liceo, en un solo lugar.</span></h2>
+            <p class="dash-date" id="dashDate">—</p>
+            <div class="dash-actions">
+              <button class="btn btn-primary" data-add-student>
+                <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg> Añadir estudiante
+              </button>
+              <button class="btn btn-ghost" data-goto="matricula">Ver matrícula</button>
+            </div>
+          </div>
+
+          <div class="clock-panel">
+            <div class="clock-top"><span class="live-dot"></span> Hora local · Venezuela</div>
+            <strong class="clock-time" id="dashClock">--:--:--</strong>
+            <span class="clock-day" id="dashWeekday">—</span>
+            <div class="clock-meta">
+              <span id="clockInstitution">U.E. Fabricio Ojeda</span>
+              <span>UTC−4</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- primeros pasos -->
+        <section class="onboarding card" id="dashEmpty" hidden>
+          <div class="onboarding-art">
+            <span class="onboarding-logo"><img src="assets/logo.webp" alt="Escudo institucional"></span>
+          </div>
+          <div class="onboarding-copy">
+            <p class="eyebrow">Primeros pasos</p>
+            <h3>El panel está listo para empezar</h3>
+            <p>Todavía no hay estudiantes registrados. Añade el primero o define la matrícula inicial del año; el panel se irá llenando solo.</p>
+            <div class="onboarding-actions">
+              <button class="btn btn-primary" data-add-student><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg> Añadir estudiante</button>
+              <button class="btn btn-ghost" data-goto="matricula">Configurar matrícula</button>
+            </div>
+          </div>
+          <div class="onboarding-steps">
+            <div><b>01</b><span>Registra a los estudiantes con todos sus datos.</span></div>
+            <div><b>02</b><span>Ajusta la matrícula inicial de cada año.</span></div>
+            <div><b>03</b><span>Personaliza el tema y la institución.</span></div>
+          </div>
+        </section>
+
+        <div id="dashData" hidden>
+          <div class="kpi-grid" style="--i:1">
+            <article class="card kpi spotlight">
+              <div class="kpi-top">
+                <span class="kpi-icon c-blue"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span>
+                <span class="kpi-tag">Total</span>
+              </div>
+              <p class="kpi-value"><span id="kpiTotal" data-count="0">0</span></p>
+              <p class="kpi-label">Estudiantes</p>
+              <p class="kpi-meta" id="kpiTotalMeta">—</p>
+            </article>
+
+            <article class="card kpi spotlight">
+              <div class="kpi-top">
+                <span class="kpi-icon c-cyan"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+                <span class="kpi-tag">Secciones</span>
+              </div>
+              <p class="kpi-value"><span id="kpiSections" data-count="0">0</span><small id="kpiSectionsOf">de 0</small></p>
+              <p class="kpi-label">Secciones activas</p>
+              <p class="kpi-meta" id="kpiSectionsMeta">—</p>
+            </article>
+
+            <article class="card kpi spotlight">
+              <div class="kpi-top">
+                <span class="kpi-icon c-green"><svg class="icon" aria-hidden="true"><use href="#i-user-check"/></svg></span>
+                <span class="kpi-tag">Familias</span>
+              </div>
+              <p class="kpi-value"><span id="kpiReps" data-count="0">0</span></p>
+              <p class="kpi-label">Representantes</p>
+              <p class="kpi-meta" id="kpiRepsMeta">—</p>
+            </article>
+
+            <article class="card kpi spotlight">
+              <div class="kpi-top">
+                <span class="kpi-icon c-amber"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+                <svg class="mini-ring" viewBox="0 0 40 40" aria-hidden="true">
+                  <circle cx="20" cy="20" r="16" class="mini-ring-track"></circle>
+                  <circle cx="20" cy="20" r="16" class="mini-ring-fill" id="completeRing"></circle>
+                </svg>
+              </div>
+              <p class="kpi-value"><span id="kpiComplete" data-count="0">0</span><small id="kpiCompleteOf">de 0</small></p>
+              <p class="kpi-label">Fichas completas</p>
+              <p class="kpi-meta" id="kpiCompleteMeta">—</p>
+            </article>
+          </div>
+
+          <div class="dash-split" style="--i:2">
+            <article class="card chart-card spotlight">
+              <div class="card-head">
+                <div>
+                  <h3 class="card-title">Estudiantes por año</h3>
+                  <p class="card-sub">Distribución de la matrícula actual</p>
+                </div>
+                <span class="pill" id="yearsPill">0 estudiantes</span>
+              </div>
+              <div class="bar-chart" id="yearChart"></div>
+            </article>
+
+            <article class="card chart-card spotlight">
+              <div class="card-head">
+                <div>
+                  <h3 class="card-title">Composición por sexo</h3>
+                  <p class="card-sub" id="sexSub">Sin datos todavía</p>
+                </div>
+              </div>
+              <div class="donut-flex">
+                <div class="donut-wrap">
+                  <svg viewBox="0 0 160 160" class="donut" id="sexDonut"></svg>
+                  <div class="donut-center"><strong id="donutTotal">0</strong><span>estudiantes</span></div>
+                </div>
+                <div class="legend" id="sexLegend"></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="dash-row3" style="--i:3">
+            <article class="card place-card spotlight">
+              <div class="card-head">
+                <div>
+                  <h3 class="card-title">Procedencia</h3>
+                  <p class="card-sub">Lugar de nacimiento</p>
+                </div>
+                <span class="pill" id="placesPill">0</span>
+              </div>
+              <ul class="place-list" id="placeList"></ul>
+            </article>
+
+            <article class="card health-card spotlight">
+              <div class="card-head">
+                <div>
+                  <h3 class="card-title">Estado de las fichas</h3>
+                  <p class="card-sub">Datos de contacto completos</p>
+                </div>
+                <span class="pill" id="healthPill">0%</span>
+              </div>
+              <div class="health-bar"><span id="healthFill"></span></div>
+              <ul class="health-list" id="healthList"></ul>
+            </article>
+
+            <article class="card recent-card spotlight">
+              <div class="card-head">
+                <div>
+                  <h3 class="card-title">Actividad reciente</h3>
+                  <p class="card-sub">Últimos cambios</p>
+                </div>
+              </div>
+              <ul class="recent-list" id="recentList"></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ ESTUDIANTES ══════════════ -->
+      <section class="view" id="view-estudiantes" data-view="estudiantes">
+        <div class="section-head" style="--i:0">
+          <div>
+            <h2>Directorio de estudiantes</h2>
+            <p id="studentsSubtitle">0 estudiantes registrados</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn btn-ghost" id="exportBtn"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg> Exportar</button>
+            <button class="btn btn-ghost" id="printBtn"><svg class="icon" aria-hidden="true"><use href="#i-print"/></svg> Imprimir</button>
+            <button class="btn btn-primary" id="addStudentBtn"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg> Añadir</button>
+          </div>
+        </div>
+
+        <div class="print-head">
+          <img src="assets/logo.webp" alt="">
+          <div><h2 id="printSchool">U.E. Fabricio Ojeda</h2><p>Listado de estudiantes · <span id="printDate"></span></p></div>
+        </div>
+
+        <div class="toolbar" style="--i:1">
+          <div class="search-box">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="studentSearch" type="search" placeholder="Nombre, cédula, representante o teléfono…" autocomplete="off" aria-label="Buscar en el directorio">
+            <button class="search-clear" id="searchClear" aria-label="Borrar búsqueda" hidden><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+          </div>
+
+          <div class="chips" id="yearFilter" role="group" aria-label="Filtrar por año">
+            <button class="chip is-active" data-year="all">Todos</button>
+            <button class="chip" data-year="1">1°</button>
+            <button class="chip" data-year="2">2°</button>
+            <button class="chip" data-year="3">3°</button>
+            <button class="chip" data-year="4">4°</button>
+            <button class="chip" data-year="5">5°</button>
+          </div>
+
+          <select class="select" id="sectionFilter" aria-label="Filtrar por sección">
+            <option value="all">Todas las secciones</option>
+          </select>
+
+          <div class="segmented" id="sexFilter" role="group" aria-label="Filtrar por sexo">
+            <button class="is-active" data-sex="all">Todos</button>
+            <button data-sex="M">M</button>
+            <button data-sex="F">F</button>
+          </div>
+
+          <select class="select" id="sortSelect" aria-label="Ordenar estudiantes">
+            <option value="name">Nombre A–Z</option>
+            <option value="year">Año · 1° a 5°</option>
+            <option value="age">Edad · menor a mayor</option>
+            <option value="recent">Últimos actualizados</option>
+          </select>
+
+          <button class="btn btn-quiet" id="clearFilters">Limpiar</button>
+        </div>
+
+        <div class="filter-summary" id="activeFilters" style="--i:2"></div>
+
+        <div class="table-card" style="--i:3">
+          <div class="table-wrap" id="tableWrap">
+            <table class="students-table">
+              <thead>
+                <tr>
+                  <th class="th-student"><button class="sort-btn" data-sort="name">Estudiante <span class="sort-arrow"></span></button></th>
+                  <th class="col-year"><button class="sort-btn" data-sort="year">Año <span class="sort-arrow"></span></button></th>
+                  <th class="col-age"><button class="sort-btn" data-sort="age">Edad <span class="sort-arrow"></span></button></th>
+                  <th class="col-sex">Sexo</th>
+                  <th class="col-rep">Representante</th>
+                  <th class="col-phone">Teléfono</th>
+                  <th class="col-actions"><span class="sr-only">Acciones</span></th>
+                </tr>
+              </thead>
+              <tbody id="studentsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="emptyState" hidden>
+            <div class="empty-art"><img src="assets/logo.webp" alt=""></div>
+            <h3 id="emptyTitle">Aún no hay estudiantes</h3>
+            <p id="emptyText">Registra al primer estudiante para comenzar a construir el directorio.</p>
+            <button class="btn btn-primary" id="emptyAction"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg> Añadir estudiante</button>
+          </div>
+
+          <div class="table-foot" id="tableFoot">
+            <p id="resultsInfo" aria-live="polite">0 estudiantes</p>
+            <div class="pager" id="pager"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ MATRÍCULA ══════════════ -->
+      <section class="view" id="view-matricula" data-view="matricula">
+        <div class="section-head" style="--i:0">
+          <div>
+            <h2>Matrícula del año</h2>
+            <p>La matrícula inicial es manual; la actual se calcula con los estudiantes registrados.</p>
+          </div>
+          <span class="save-flag" id="matSaved"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Guardado</span>
+        </div>
+
+        <div class="mat-hero" style="--i:1">
+          <div class="mat-stat">
+            <span class="mat-label">Matrícula inicial</span>
+            <strong class="mat-number" id="matInitial">0</strong>
+            <span class="mat-period">Definida por ti</span>
+            <div class="mat-mini" id="matInitialSex"></div>
+          </div>
+          <div class="mat-mid">
+            <span class="delta-badge" id="matDelta">0</span>
+            <svg class="mat-arrow" viewBox="0 0 120 24" aria-hidden="true"><path d="M2 12h110M104 4l10 8-10 8"/></svg>
+            <span class="mat-mid-note">Variación</span>
+          </div>
+          <div class="mat-stat accent">
+            <span class="mat-label">Matrícula actual</span>
+            <strong class="mat-number" id="matCurrent">0</strong>
+            <span class="mat-period">Según estudiantes</span>
+            <div class="mat-mini" id="matCurrentSex"></div>
+          </div>
+          <div class="mat-summary">
+            <p>Composición actual</p>
+            <div class="stacked-bar" id="matStacked"></div>
+            <div class="stacked-legend">
+              <span><i class="dot-m"></i> Masculino <strong id="matM">0</strong></span>
+              <span><i class="dot-f"></i> Femenino <strong id="matF">0</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card mat-card" style="--i:2">
+          <div class="card-head mat-head">
+            <div>
+              <h3 class="card-title">Detalle por año</h3>
+              <p class="card-sub">Escribe la matrícula inicial de cada sección. Se guarda automáticamente.</p>
+            </div>
+            <span class="pill soft">Inicial editable</span>
+          </div>
+          <div class="table-wrap">
+            <table class="students-table mat-table">
+              <thead>
+                <tr class="group-row">
+                  <th rowspan="2" scope="col">Año</th>
+                  <th colspan="3" scope="colgroup" class="group-initial">Inicial · manual</th>
+                  <th colspan="4" scope="colgroup" class="group-current">Actual · calculada</th>
+                </tr>
+                <tr>
+                  <th class="num">M</th>
+                  <th class="num">F</th>
+                  <th class="num">Total</th>
+                  <th class="num">M</th>
+                  <th class="num">F</th>
+                  <th class="num">Total</th>
+                  <th class="num">Var.</th>
+                </tr>
+              </thead>
+              <tbody id="matBody"></tbody>
+              <tfoot id="matFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ CONFIGURACIÓN ══════════════ -->
+      <section class="view" id="view-configuracion" data-view="configuracion">
+        <div class="section-head" style="--i:0">
+          <div>
+            <h2>Configuración</h2>
+            <p>Ajusta la apariencia, los datos de la institución y la información de la app.</p>
+          </div>
+          <span class="save-flag" id="settingsSaved"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Guardado</span>
+        </div>
+
+        <div class="settings-grid">
+          <article class="card settings-card" style="--i:1">
+            <div class="card-head">
+              <div><h3 class="card-title">Apariencia</h3><p class="card-sub">Elige cómo se ve el panel</p></div>
+            </div>
+            <div class="theme-grid" id="themeGrid">
+              <button class="theme-choice" data-theme-choice="light">
+                <span class="theme-swatch sw-light"><i></i><i></i><i></i></span>
+                <span class="theme-info"><strong>Claro</strong><small>Luminoso y limpio</small></span>
+                <span class="theme-tick"><svg class="icon"><use href="#i-check"/></svg></span>
+              </button>
+              <button class="theme-choice" data-theme-choice="dark">
+                <span class="theme-swatch sw-dark"><i></i><i></i><i></i></span>
+                <span class="theme-info"><strong>Oscuro</strong><small>Azul profundo</small></span>
+                <span class="theme-tick"><svg class="icon"><use href="#i-check"/></svg></span>
+              </button>
+              <button class="theme-choice" data-theme-choice="black">
+                <span class="theme-swatch sw-black"><i></i><i></i><i></i></span>
+                <span class="theme-info"><strong>Negro</strong><small>OLED, máximo contraste</small></span>
+                <span class="theme-tick"><svg class="icon"><use href="#i-check"/></svg></span>
+              </button>
+            </div>
+            <div class="setting-row">
+              <div><strong>Filas por página</strong><small>En el directorio de estudiantes</small></div>
+              <select class="select select-sm" id="setPerPage" aria-label="Filas por página">
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+          </article>
+
+          <article class="card settings-card" style="--i:2">
+            <div class="card-head">
+              <div><h3 class="card-title">Institución</h3><p class="card-sub">Estos datos aparecen en toda la app</p></div>
+            </div>
+            <div class="inst-preview">
+              <span class="inst-logo"><img src="assets/logo.webp" alt="Escudo institucional"></span>
+              <div>
+                <strong id="instPreviewName">U.E. Fabricio Ojeda</strong>
+                <small id="instPreviewSub">Boconó, Trujillo</small>
+              </div>
+            </div>
+            <div class="form-grid">
+              <label class="field span-2"><span>Nombre de la institución</span><input id="setName" type="text" maxlength="70" autocomplete="off"></label>
+              <label class="field"><span>Ubicación</span><input id="setLocation" type="text" maxlength="50" autocomplete="off"></label>
+              <label class="field"><span>Año escolar</span><input id="setYear" type="text" maxlength="20" autocomplete="off"></label>
+            </div>
+          </article>
+
+          <article class="card settings-card span-2" style="--i:3">
+            <div class="card-head">
+              <div><h3 class="card-title">Secciones</h3><p class="card-sub">Añade o elimina los grupos de cada año (A, B, C…). Cada año comienza con la sección A y se asignan al registrar estudiantes.</p></div>
+              <span class="pill" id="sectionsPill">—</span>
+            </div>
+            <div class="section-editor" id="sectionEditor"></div>
+          </article>
+
+          <article class="card settings-card" style="--i:4">
+            <div class="card-head">
+              <div><h3 class="card-title">Datos y respaldos</h3><p class="card-sub">Todo se guarda en este navegador</p></div>
+              <span class="pill" id="lastSavedPill">—</span>
+            </div>
+
+            <div class="data-list">
+              <button class="data-row" id="backupBtn">
+                <span class="data-icon c-blue"><svg class="icon"><use href="#i-download"/></svg></span>
+                <span class="data-copy"><strong>Exportar respaldo</strong><small>Descarga todos los datos en un archivo .json</small></span>
+                <svg class="icon data-go"><use href="#i-chevron-right"/></svg>
+              </button>
+
+              <label class="data-row" for="restoreInput">
+                <span class="data-icon c-cyan"><svg class="icon"><use href="#i-upload"/></svg></span>
+                <span class="data-copy"><strong>Restaurar respaldo</strong><small>Importa un archivo .json exportado desde esta app</small></span>
+                <svg class="icon data-go"><use href="#i-chevron-right"/></svg>
+                <input id="restoreInput" type="file" accept="application/json,.json" hidden>
+              </label>
+
+              <button class="data-row" id="csvBtn">
+                <span class="data-icon c-green"><svg class="icon"><use href="#i-file"/></svg></span>
+                <span class="data-copy"><strong>Exportar a Excel (CSV)</strong><small>Listado completo con todos los campos</small></span>
+                <svg class="icon data-go"><use href="#i-chevron-right"/></svg>
+              </button>
+
+              <button class="data-row" id="legacyBtn">
+                <span class="data-icon c-amber"><svg class="icon"><use href="#i-database"/></svg></span>
+                <span class="data-copy"><strong>Recuperar datos del Excel original</strong><small>Carga los 106 estudiantes del archivo “Todos los Años.xlsx”</small></span>
+                <svg class="icon data-go"><use href="#i-chevron-right"/></svg>
+              </button>
+
+              <button class="data-row is-danger" id="clearBtn">
+                <span class="data-icon c-red"><svg class="icon"><use href="#i-trash"/></svg></span>
+                <span class="data-copy"><strong>Borrar estudiantes y matrícula</strong><small>Deja la app limpia, sin tocar la configuración</small></span>
+                <svg class="icon data-go"><use href="#i-chevron-right"/></svg>
+              </button>
+            </div>
+          </article>
+
+          <article class="card settings-card" style="--i:5">
+            <div class="card-head">
+              <div><h3 class="card-title">Acerca de</h3><p class="card-sub">Sistema de gestión estudiantil</p></div>
+            </div>
+            <div class="about">
+              <div class="about-logo"><img src="assets/logo.webp" alt=""></div>
+              <div>
+                <strong id="aboutName">U.E. Fabricio Ojeda</strong>
+                <p id="aboutMeta">Boconó · Trujillo · Fundado 1992</p>
+                <span class="pill soft" id="appVersion">Versión 2.1</span>
+              </div>
+            </div>
+            <ul class="about-list">
+              <li><svg class="icon"><use href="#i-shield"/></svg> Funciona sin internet y sin cuentas.</li>
+              <li><svg class="icon"><use href="#i-database"/></svg> Los datos viven solo en este navegador.</li>
+              <li><svg class="icon"><use href="#i-alert"/></svg> Exporta un respaldo antes de limpiar el navegador.</li>
+            </ul>
+            <p class="about-note">Hecho a medida para la institución. v2.1 · 2026.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ── navegación móvil ───────────────────────────────── -->
+<nav class="mobile-nav" aria-label="Navegación rápida">
+  <button class="is-active" data-view="resumen"><svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg><span>Resumen</span></button>
+  <button data-view="estudiantes"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Estudiantes</span></button>
+  <button data-view="matricula"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Matrícula</span></button>
+  <button data-view="configuracion">
+    <span class="gear-wrap" aria-hidden="true">
+      <svg class="gear" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square">
+        <g><circle  cx="16" cy="16" r="5"></circle><path  d="m30,17.5v-3l-3.388-1.355c-.25-.933-.617-1.815-1.089-2.633l1.436-3.351-2.121-2.121-3.351,1.436c-.817-.472-1.7-.838-2.633-1.089l-1.355-3.388h-3l-1.355,3.388c-.933.25-1.815.617-2.633 1.089l-3.351-1.436-2.121 2.121 1.436 3.351c-.472.817-.838 1.7-1.089 2.633l-3.388 1.355v3l3.388 1.355c.25.933.617 1.815 1.089 2.633l-1.436 3.351 2.121 2.121 3.351-1.436c.817.472 1.7.838 2.633 1.089l1.355 3.388h3l1.355-3.388c.933-.25 1.815-.617 2.633-1.089l3.351 1.436 2.121-2.121-1.436-3.351c.472-.817.838-1.7 1.089-2.633l3.388-1.355Z"></path></g>
+      </svg>
+    </span><span>Configuración</span>
+  </button>
+</nav>
+
+<!-- ── ficha lateral ──────────────────────────────────── -->
+<div class="backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerName" tabindex="-1">
+  <div class="drawer-head">
+    <button class="icon-btn drawer-close" id="drawerClose" aria-label="Cerrar ficha"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <div class="drawer-identity">
+      <span class="avatar avatar-lg" id="drawerAvatar"></span>
+      <div class="drawer-title">
+        <h2 id="drawerName">—</h2>
+        <div class="drawer-chips" id="drawerChips"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-nav">
+    <button class="icon-btn" id="drawerPrev" aria-label="Estudiante anterior"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+    <span id="drawerIndex">—</span>
+    <button class="icon-btn" id="drawerNext" aria-label="Estudiante siguiente"><svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+  </div>
+
+  <div class="drawer-scroll" id="drawerContent"></div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="drawerEditBtn"><svg class="icon" aria-hidden="true"><use href="#i-edit"/></svg> Editar</button>
+    <button class="btn btn-ghost" id="drawerCopyBtn" aria-label="Copiar ficha"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span>Copiar</span></button>
+    <a class="btn btn-ghost wa-btn" id="drawerWaBtn" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+  </div>
+</aside>
+
+<!-- ── modal de estudiante ───────────────────────────── -->
+<div class="modal-backdrop" id="studentModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <form id="studentForm" novalidate>
+      <header class="modal-head">
+        <div><p class="eyebrow">Ficha del estudiante</p><h2 id="modalTitle">Añadir estudiante</h2></div>
+        <button type="button" class="icon-btn" data-close-modal aria-label="Cerrar"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </header>
+
+      <div class="modal-body">
+        <div class="form-error" id="formError" role="alert" hidden></div>
+        <input type="hidden" id="fId">
+
+        <div class="form-section">
+          <h3>Datos personales</h3>
+          <div class="form-grid">
+            <label class="field span-2"><span>Apellidos y nombres <b>*</b></span><input id="fName" type="text" maxlength="90" autocomplete="off" placeholder="Ej. Pérez Rodríguez Ana Sofía" required></label>
+            <label class="field"><span>Año <b>*</b></span>
+              <select id="fYear" required>
+                <option value="">Selecciona…</option>
+                <option value="1">1° año</option><option value="2">2° año</option>
+                <option value="3">3° año</option><option value="4">4° año</option>
+                <option value="5">5° año</option>
+              </select>
+            </label>
+            <label class="field"><span>Sección</span>
+              <select id="fSection">
+                <option value="">Sin sección</option>
+              </select>
+              <small class="field-hint" id="sectionHint">Configura las secciones en Ajustes</small>
+            </label>
+            <label class="field"><span>Sexo <b>*</b></span>
+              <select id="fSex" required>
+                <option value="">Selecciona…</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+            </label>
+            <label class="field"><span>Cédula escolar</span>
+              <div class="cedula-group">
+                <select id="fCedulaPrefix" aria-label="Tipo de cédula">
+                  <option value="V">V-</option>
+                  <option value="E">E-</option>
+                </select>
+                <input id="fCedulaNumber" type="text" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="12345678" aria-label="Número de cédula">
+              </div>
+            </label>
+            <label class="field"><span>Fecha de nacimiento</span>
+              <input id="fBirth" type="date">
+              <small class="age-chip" id="ageHint" aria-live="polite">Edad: —</small>
+            </label>
+            <label class="field"><span>Lugar de nacimiento</span><input id="fPlace" type="text" maxlength="60" autocomplete="off" placeholder="Ej. Boconó"></label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Representante</h3>
+          <div class="form-grid">
+            <label class="field"><span>Nombre y apellido</span><input id="fRep" type="text" maxlength="90" autocomplete="off" placeholder="Ej. Rodríguez María"></label>
+            <label class="field"><span>Cédula</span><input id="fRepCedula" type="text" maxlength="20" autocomplete="off" placeholder="V-12345678"></label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Contacto</h3>
+          <div class="form-grid">
+            <label class="field"><span>Teléfono</span><input id="fPhone" type="tel" maxlength="20" autocomplete="off" placeholder="0424-1234567"></label>
+            <label class="field"><span>Dirección</span><input id="fAddress" type="text" maxlength="120" autocomplete="off" placeholder="Ej. Bisnaca, calle 3"></label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Observaciones</h3>
+          <label class="field"><span>Notas internas</span><textarea id="fNotes" rows="3" maxlength="600" placeholder="Seguimiento, conversaciones, entregas…"></textarea></label>
+        </div>
+      </div>
+
+      <footer class="modal-foot">
+        <button type="button" class="btn btn-danger-ghost" id="deleteStudentBtn" hidden><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg> Eliminar</button>
+        <span class="modal-spacer"></span>
+        <button type="button" class="btn btn-ghost" data-close-modal>Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="saveStudentBtn"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Guardar</button>
+      </footer>
+    </form>
+  </div>
+</div>
+
+<!-- ── confirmación ──────────────────────────────────── -->
+<div class="modal-backdrop" id="confirmModal" hidden>
+  <div class="modal modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+    <div class="confirm-body">
+      <span class="confirm-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></span>
+      <h2 id="confirmTitle">¿Estás seguro?</h2>
+      <p id="confirmMessage">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-ghost" id="confirmCancel">Cancelar</button>
+      <button type="button" class="btn btn-danger" id="confirmOk">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
